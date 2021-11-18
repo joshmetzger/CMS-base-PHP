@@ -64,10 +64,6 @@ if(isset($_POST['checkBoxArray'])) {
 
             $query .= "VALUES('{$post_category_id}', '{$post_title}', '{$post_author}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_status}') ";
 
-            // $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date,post_image,post_content,post_tags,post_status) ";
-        
-            // $query .= "VALUES({$post_category_id},'{$post_title}','{$post_author}',now(),'{$post_image}','{$post_content}','{$post_tags}', '{$post_status}') ";
-
             $copy_query = mysqli_query($connection, $query);
 
             if(!$copy_query) {
@@ -123,11 +119,12 @@ if(isset($_POST['checkBoxArray'])) {
                     <th>View Post</th>
                     <th>Edit</th>
                     <th>Delete</th>
+                    <th>Views</th>
                 </tr>
             </thead>
             <tbody>
 
-<?php
+    <?php
                 
     $query = "SELECT * FROM posts ORDER BY post_id DESC";
     $select_posts = mysqli_query($connection,$query);         
@@ -141,11 +138,15 @@ if(isset($_POST['checkBoxArray'])) {
         $post_image = $row['post_image'];
         $post_tags = $row['post_tags'];
         $post_comment_count = $row['post_comment_count'];
-        $post_date = $row['post_date'];   
+        $post_date = $row['post_date'];
+        $post_views_count = $row['post_views_count'];   
             
-        echo "<tr>"; 
+    echo "<tr>"; 
+
         ?>    
+
     <td><input class='checkBoxes' type='checkbox' name='checkBoxArray[]' value='<?php echo $post_id; ?>'></td>    
+    
     <?php      
       
     echo "<td>{$post_id}</td>";
@@ -165,22 +166,20 @@ if(isset($_POST['checkBoxArray'])) {
         
 
     echo "<td>{$post_status}</td>";
-    echo "<td><img width='200' src='../images/$post_image' alt='posting images'</td>";
+    echo "<td><img width='100' height='100' src='../images/$post_image' alt='posting images'</td>";
     echo "<td>{$post_tags}</td>";
     echo "<td>{$post_comment_count}</td>";
     echo "<td>{$post_date}</td>";   
     echo "<td><a href='../post.php?source=edit_post&p_id={$post_id}'>View Post</a></td>";    
     echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>";    
     echo "<td><a onClick=\"javascript: return confirm('Are you sure you want to delete this entry?'); \" href='posts.php?delete={$post_id}'>Delete</a></td>";
+    echo "<td><a href='posts.php?reset={$post_id}'>{$post_views_count}</a></td>";
     echo "</tr>";    
-        
-                
+                      
 }
                 
 ?>
-                           
-                              
-                           
+                                        
         </tbody>
         </table>
         </form>
@@ -191,8 +190,18 @@ if(isset($_GET['delete'])){
     
     $the_post_id = $_GET['delete'];
     
-    $query = "DELETE FROM posts WHERE post_id = {$the_post_id} ";
+    $query = "DELETE FROM posts WHERE post_id = {$the_post_id}";
     $delete_query = mysqli_query($connection, $query);
+    header("Location: posts.php");
+    
+}
+
+if(isset($_GET['reset'])){
+    
+    $the_post_id = $_GET['reset'];
+    
+    $query = "UPDATE posts SET post_views_count = 0 WHERE post_id =" . mysqli_real_escape_string($connection, $_GET['reset']) . " ";
+    $reset_query = mysqli_query($connection, $query);
     header("Location: posts.php");
     
 }
