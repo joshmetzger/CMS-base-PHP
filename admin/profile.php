@@ -19,15 +19,13 @@ if(isset($_SESSION['username'])){
         $user_lastname = $row['user_lastname'];
         $user_email = $row['user_email'];
         $user_image = $row['user_image'];
-        $user_role = $row['user_role'];
         
     }
     
 }
 
 ?>  
-    
-      
+         
 <?php        
   
 if(isset($_POST['edit_user'])) {
@@ -35,7 +33,6 @@ if(isset($_POST['edit_user'])) {
         //$user_id = $_POST['user_id'];
         $user_firstname = $_POST['user_firstname'];
         $user_lastname = $_POST['user_lastname'];
-        $user_role = $_POST['user_role'];
         
         //$post_image = $_FILES['image']['name'];
         //$post_image_temp = $_FILES['image']['tmp_name'];
@@ -49,7 +46,6 @@ if(isset($_POST['edit_user'])) {
         $query = "UPDATE users SET ";
         $query .="user_firstname = '{$user_firstname}', ";
         $query .="user_lastname = '{$user_lastname}', ";
-        $query .="user_role = '{$user_role}', ";
         $query .="username = '{$username}', ";
         $query .="user_email = '{$user_email}', ";
         $query .="user_password = '{$user_password}' ";
@@ -59,9 +55,7 @@ if(isset($_POST['edit_user'])) {
         $edit_user_query = mysqli_query($connection,$query);
         
         confirmQuery($edit_user_query);
-        
-            
- 
+             
     }    
 
 ?>              
@@ -84,7 +78,7 @@ if(isset($_POST['edit_user'])) {
                        <small>Author</small>
                        </h1>
                        
-                       <form action="" method="post" enctype="multipart/form-data">
+<form action="" method="post" enctype="multipart/form-data">
     
     <div class="form-group">
         <label for="Firstname">Firstname</label>
@@ -97,34 +91,6 @@ if(isset($_POST['edit_user'])) {
     </div>
     
     <div class="form-group">
-       
-    <select name=user_role id="user_role">
-       <option value="subscriber"><?php echo $user_role; ?></option>
-       
-       <?php
-        
-        if($user_role == 'admin'){
-            
-            echo "<option value='subscriber'>subscriber</option>";
-            
-        } else {
-            
-            echo "<option value='admin'>admin</option>";
-            
-        }     
-        
-        ?>
-
-        </select>
-        </div>
-<!-- 
-    <div class="form-group">
-        <label for="post_image">Post Image</label>
-        <input type="file" name="image">
-    </div>
--->
-        
-    <div class="form-group">
         <label for="Username">Username</label>
         <input type="text" value="<?php echo $username; ?>"class="form-control" name="username">
     </div>
@@ -136,7 +102,7 @@ if(isset($_POST['edit_user'])) {
     
     <div class="form-group">
         <label for="user_password">Password</label>
-        <input type="password" value="<?php echo $user_password; ?>" class="form-control" name="user_password">
+        <input autocomplete="off" type="password" class="form-control" name="user_password">
     </div>
     
     <div class="form-group">
