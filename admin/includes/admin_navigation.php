@@ -1,3 +1,4 @@
+
    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -12,6 +13,7 @@
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li><a href="../index.php">HOME</a></li>
+                <li><a>Users Online: <?php echo users_online(); ?></a></li>
                    
                     
                 
